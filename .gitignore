@@ -1,0 +1,10 @@
+# Dictionary
+x64/
+.vs/
+
+# Project files
+*.sln
+*.vcxproj.filters
+*.vcxproj.user
+*.ini
+
