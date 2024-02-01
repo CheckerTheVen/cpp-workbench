@@ -1,53 +1,34 @@
-#pragma once
-
 namespace workbench {
-	template<class Key, class Value>
+	template <class Key, class Value>
+	struct KeyValuePair {
+	private:
+		const Key* key;
+		const Value* value;
+
+	public:
+		KeyValuePair(const Key&, const Value&);
+		~KeyValuePair();
+
+		Key* key();
+		Value* value();
+	};
+
+	template <class Key, class Value, bool unique = false>
 	class Dictionary {
 	private:
 		static const int initialCapacity = 16;
 
-		const Key** keys;
-		const Value** values;
+		const KeyValuePair<Key, Value>* entries;
 		int capacity;
 		int length = 0;
 
 	public:
-		Dictionary() : Dictionary(initialCapacity) {
+		Dictionary();
+		Dictionary(const int);
+		~Dictionary();
 
-		}
-
-		Dictionary(const int initial) : capacity(initial), keys(new const Key*[initial]), values(new const Value*[initial]) {
-
-		}
-
-		~Dictionary() {
-			delete keys;
-			delete values;
-		}
-
-		void add(const Key& key, const Value& value) {
-			for (int i = 0; i < length; i++) {
-				if (*(keys[i]) == key) {
-					return;
-				}
-			}
-
-			keys[length] = &key;
-			values[length] = &value;
-			length++;
-		}
-
-		Value get(const Key& key) {
-			for (int i = 0; i < length; i++) {
-				if (*(keys[i]) == key) {
-					return *(values[i]);
-				}
-			}
-			return nullptr;
-		}
-
-		int size() {
-			return length;
-		}
+		void add(const Key&, const Value&);
+		Value get(const Key&);
+		int size();
 	};
 }
