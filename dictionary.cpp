@@ -1,67 +1,72 @@
 #include "dictionary.h"
 
+/// <summary>
+/// Instantiates 
+/// </summary>
 template<class Key, class Value>
 workbench::KeyValuePair<Key, Value>::KeyValuePair(const Key& key, const Value& value) {
-	this->key = key;
-	this->value = value;
+	this->keyvar = key;
+	this->valuevar = value;
 }
 
 template<class Key, class Value>
 workbench::KeyValuePair<Key, Value>::~KeyValuePair() {
-	delete key;
-	delete value;
+	delete keyvar;
+	delete valuevar;
 }
 
 template<class Key, class Value>
 Key* workbench::KeyValuePair<Key, Value>::key() {
-	return this->key;
+	return this->keyvar;
 }
 
 template<class Key, class Value>
 Value* workbench::KeyValuePair<Key, Value>::value() {
-	return this->value;
+	return this->valuevar;
 }
 
-template<class Key, class Value, bool unique>
-workbench::Dictionary<Key, Value, unique>::Dictionary() :
+template<class Key, class Value, bool uniquevar>
+workbench::Dictionary<Key, Value, uniquevar>::Dictionary() :
 	Dictionary(initialCapacity) { }
 
-template<class Key, class Value, bool unique>
-workbench::Dictionary<Key, Value, unique>::Dictionary(int initial) :
+template<class Key, class Value, bool uniquevar>
+workbench::Dictionary<Key, Value, uniquevar>::Dictionary(int initial) :
 	capacity(initial),
-	keys(new const Key* [initial]),
-	values(new const Value* [initial]) { }
+	entries(new const KeyValuePair<Key, Value>*[initial]) { }
 
-template<class Key, class Value, bool unique>
-workbench::Dictionary<Key, Value, unique>::~Dictionary() {
-	delete keys;
-	delete values;
+template<class Key, class Value, bool uniquevar>
+workbench::Dictionary<Key, Value, uniquevar>::~Dictionary() {
+	delete entries;
 }
 
-template<class Key, class Value, bool unique>
-void workbench::Dictionary<Key, Value, unique>::add(const Key& key, const Value& value) {
+template<class Key, class Value, bool uniquevar>
+bool workbench::Dictionary<Key, Value, uniquevar>::unique(const Key& key) {
+	if (!uniquevar) return true;
+
 	for (int i = 0; i < length; i++) {
-		if (*(keys[i]) == key) {
-			return;
-		}
+		if (*((*(entries[i])).key()) == key) return false;
 	}
 
-	keys[length] = &key;
-	values[length] = &value;
+	return true;
+}
+
+template<class Key, class Value, bool uniquevar>
+void workbench::Dictionary<Key, Value, uniquevar>::add(const Key& key, const Value& value) {
+	if (!unique(key)) return;
+
+	entries[length] = new KeyValuePair<Key, Value>(key, value);
 	length++;
 }
 
-template<class Key, class Value, bool unique>
-Value workbench::Dictionary<Key, Value, unique>::get(const Key& key) {
+template<class Key, class Value, bool uniquevar>
+workbench::KeyValuePair<Key, Value>* workbench::Dictionary<Key, Value, uniquevar>::get(const Key& key) {
 	for (int i = 0; i < length; i++) {
-		if (*(keys[i]) == key) {
-			return *(values[i]);
-		}
+		if (*(keys[i]) == key) return *(values[i]);
 	}
 	return nullptr;
 }
 
-template<class Key, class Value, bool unique>
-int workbench::Dictionary<Key, Value, unique>::size() {
+template<class Key, class Value, bool uniquevar>
+int workbench::Dictionary<Key, Value, uniquevar>::size() {
 	return this->length;
 }

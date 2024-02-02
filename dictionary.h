@@ -2,8 +2,8 @@ namespace workbench {
 	template <class Key, class Value>
 	struct KeyValuePair {
 	private:
-		const Key* key;
-		const Value* value;
+		const Key* keyvar;
+		const Value* valuevar;
 
 	public:
 		KeyValuePair(const Key&, const Value&);
@@ -13,7 +13,7 @@ namespace workbench {
 		Value* value();
 	};
 
-	template <class Key, class Value, bool unique = false>
+	template <class Key, class Value, bool uniquevar = false>
 	class Dictionary {
 	private:
 		static const int initialCapacity = 16;
@@ -22,13 +22,16 @@ namespace workbench {
 		int capacity;
 		int length = 0;
 
+		bool unique(const Key&);
+
 	public:
 		Dictionary();
 		Dictionary(const int);
 		~Dictionary();
-
+		
 		void add(const Key&, const Value&);
-		Value get(const Key&);
+		void add(const KeyValuePair<Key, Value>&);
+		KeyValuePair<Key, Value>* get(const Key&);
 		int size();
 	};
 }
