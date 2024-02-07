@@ -1,3 +1,14 @@
-#include "dictionary.h"
+namespace workbench {
+	template <class Key, class Value>
+	class KeyValuePair {
+	private:
+		Key keyvar;
+		Value valuevar;
 
-// TODO Develop dictionary definition
+	public:
+		KeyValuePair(const Key&, const Value&);
+
+		Key key();
+		Value value();
+	};
+}
