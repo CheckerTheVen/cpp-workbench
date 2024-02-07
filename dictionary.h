@@ -1,14 +1,16 @@
 #pragma once
 
-template <class Key, class Value>
-class KeyValuePair {
-private:
-	Key keyvar;
-	Value valuevar;
+namespace workbench {
+	template <class Key, class Value>
+	class KeyValuePair {
+	private:
+		Key keyvar;
+		Value valuevar;
 
-public:
-	KeyValuePair(const Key&, const Value&);
+	public:
+		KeyValuePair(const Key&, const Value&);
 
-	Key key();
-	Value value();
-};
+		Key key();
+		Value value();
+	};
+}
