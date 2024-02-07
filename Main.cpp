@@ -1,38 +1,39 @@
 #include <iostream>
-#include "dictionary.h"
-#include <map>
 
-class Cat {
-private:
-	const char* name;
+#include "dictionary.cpp"
+
+template <class T>
+class C {
+	T val;
 
 public:
-	Cat(const char* name) : name(name) {
-		
-	}
-
-	~Cat() {
-
-	}
-
-	const char* nameOf() {
-		return name;
-	}
-
-	Cat operator= (const char* name) {
-		return Cat(name);
-	}
+	C(const T&);
+	T value();
 };
 
-int main() {
-	workbench::Dictionary<int, Cat> cationary = workbench::Dictionary<int, Cat>(4);
-	Cat whiskers = "Whiskers";
-	Cat noodle = "Noodle";
+template <class T>
+C<T>::C(const T& val) :
+	val(val) { }
 
-	cationary.add(10, noodle);
-	cationary.add(6, whiskers);
-	std::cout << cationary.get(6).nameOf() << std::endl;
-	std::cout << cationary.get(10).nameOf() << std::endl;
+template <class T>
+T C<T>::value() {
+	return val;
+}
+
+int value = 4;
+
+void print(const int x) {
+	std::cout << x << std::endl;
+}
+
+int main() {
+	//workbench::KeyValuePair<int, int> a = workbench::KeyValuePair<int, int>(1, 2);
+
+	//std::cout << a.key() << " " << a.value() << std::endl;
+
+	int x = 4;
+	print(value++);
+	std::cout << value << std::endl;
 
 	return 0;
 }
